@@ -20,7 +20,9 @@ list of 12 bools describe whether squares are connected or not
 
 import string
 import random
-
+import math
+import os
+rows, columns = os.popen('stty size', 'r').read().split()
 
 def BoxChars():
   return [" ",unichr(9594),unichr(9592),unichr(9552),
@@ -40,7 +42,7 @@ def PrintTop(a,b):
   else:
     line+=unichr(9472)
   line+=unichr(9488)
-  print line
+  return line
  
 def PrintBottom(a,b):
   line=unichr(9492)
@@ -53,7 +55,7 @@ def PrintBottom(a,b):
   else:
     line+=unichr(9472)
   line+=unichr(9496)
-  print line
+  return line
 
 # l = [up,down,left,right]
 
@@ -77,7 +79,7 @@ def PrintMiddle(upa,upb,a,b,c,downa,downb):
     line+=unichr(9569)
   else:
     line+=unichr(9474)
-  print line
+  return line
 
 
 def PrintOdd(a,b):
@@ -91,13 +93,14 @@ def PrintOdd(a,b):
   else:
     line+=" "
   line+=unichr(9474)
-  print line
+  return line
 
 def PrintGlyph(l):
-  PrintTop(l[0],l[1])
-  PrintMiddle(l[0],l[1],l[2],l[3],l[4],l[5],l[6])
-  PrintMiddle(l[5],l[6],l[7],l[8],l[9],l[10],l[11])
-  PrintBottom(l[10],l[11])
+  a= PrintTop(l[0],l[1])
+  b= PrintMiddle(l[0],l[1],l[2],l[3],l[4],l[5],l[6])
+  c= PrintMiddle(l[5],l[6],l[7],l[8],l[9],l[10],l[11])
+  d= PrintBottom(l[10],l[11])
+  return a+'\n'+b+'\n'+c+'\n'+d
 
 def RandomGlyphCode():
   output=[]
@@ -112,28 +115,33 @@ def ListToString(l):
   return output
 
 def ConcatMultilineString(strings):
-  1
-
-
-
-
-
-
+  lines=['']*len(strings[0].split('\n'))
+  output=''
+  for g in strings:
+    g_lines=g.split('\n')
+    for x in range(0,len(g_lines)):
+      lines[x]+=g_lines[x]
+  for line in lines:
+    output+=line+'\n'
+  return output[0:-1]
 
 def PrintOneByOne():
   while True:
     raw_input("---")
     code = RandomGlyphCode()
     print ListToString(code)
-    PrintGlyph(code)
+    print PrintGlyph(code)
 
-def PrintByLine():
-  while True:
-    raw_input("")
-    for x in range(0,80/5):
+def PrintByLine(y):
+  for m in range(0,y):
+    glyphs=[]
+    for x in range(0,(int(columns)/4)):
       code = RandomGlyphCode()
-      print ListToString(code)
-      PrintGlyph(code)
+      glyphs.append(PrintGlyph(code))
+    print ConcatMultilineString(glyphs)
+
+#PrintOneByOne()
+PrintByLine(int(raw_input('number of lines')))
 
 #PrintGlyph([1,0,1,1,0,1,0,0,1,1,0,1])
 
