@@ -8,4 +8,6 @@ These symbols are highly dependent on their orientation to determine their meani
 
 Either way there's enough symbols to form a rudimentary [logography.](https://en.wikipedia.org/wiki/Logogram)  I intended to pseudorandomly encode the n most common english words (or maybe just nouns, adjectives, and verbs?) into these symbols, with a separate system corresponding to the latin alphabet for words not contained within the n most common list.  
 
-![Looks a bit like a geometric Maya script](https://i.imgur.com/wrdOP8H.png)
+[Here](https://raw.githubusercontent.com/koneill1994/glyphs/master/all_possible.png) is a chart of all possible glyphs.  
+
+![Looks a bit like a geometric Maya script](https://raw.githubusercontent.com/koneill1994/glyphs/master/test.png)
