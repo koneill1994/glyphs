@@ -4,6 +4,7 @@
 import PIL
 import Image
 import random
+from copy import deepcopy
 
 
 '''
@@ -57,12 +58,12 @@ def RandomGlyphCode():
   return output
 
 def GlyphFromNumber(n):
-  output=[]
+  output=[0]*12
   b=bin(n)[2:]
   c=[0]*(12-len(b))+list(b)
-  for e in c:
-    output.append(int(e))
-  return list(reversed(output))
+  for e in range(len(c)):
+    output[12-e]=c[e]
+  return output
 
 def draw_empty_block((x,y),array):
   s=8
@@ -150,6 +151,17 @@ def draw_glyph((a,b),code,array):
       array=draw_hole(add_tuple((a,b),holes[n]),array)
   return array
 
+def draw_shadows(array):
+  output=deepcopy(array)
+  for y in range(len(array)):
+    for x in range(len(array[y])):
+      if(array[y][x]==0):
+        if(array[y-1][x]==255 or array[y][x-1]==255 or array[y-2][x]==255 or array[y][x-2]==255):
+          output[y][x]=0
+        else:
+          output[y][x]=255
+  return output
+
 for m in range(h):
   for n in range(w):
     k=RandomGlyphCode()
@@ -157,6 +169,7 @@ for m in range(h):
     #print k
     im_array=draw_glyph((n*icon,m*icon),k,im_array)
 
+im_array=draw_shadows(im_array)
 
 img = Image.new( 'RGB', (icon*h,icon*w), "white") # create a new white image
 pixels = img.load() # create the pixel map
