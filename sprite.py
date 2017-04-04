@@ -156,7 +156,7 @@ def draw_shadows(array):
   for y in range(len(array)):
     for x in range(len(array[y])):
       if(array[y][x]==0):
-        if(array[y-1][x]==255 or array[y][x-1]==255 or array[y-2][x]==255 or array[y][x-2]==255):
+        if(array[y-1][x-1]==255 or array[y-2][x-2]==255):
           output[y][x]=0
         else:
           output[y][x]=195
