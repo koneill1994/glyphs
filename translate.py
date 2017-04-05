@@ -33,9 +33,9 @@ def break_up_compound_word(word):
     t=True
     try:
       #print(word[:i])
-      p.append(words.index(word[:i].lower()+'\n'))
+      p.append(words.index(word[:i].lower()))
       #print(word[i:])
-      p.append(words.index(word[i:].lower()+'\n'))
+      p.append(words.index(word[i:].lower()))
     except ValueError:
       #print '    valueerror'
       t=False
@@ -45,16 +45,16 @@ def break_up_compound_word(word):
   if(len(output)>0):
     # return the pair split nearest to the center
     return output[int(math.floor(len(output)/2.0))]
-  else: return [word]
+  else: return []
 
 
 with open('scrambled_list.txt') as f:
-    words = f.readlines()
+    words = map(str.strip, f.readlines())
 
 # input text to have its common words translated into the scrambled_list.txt encoding
 
-while True:
-  print(break_up_compound_word(raw_input()))
+#while True:
+#  print(break_up_compound_word(raw_input()))
 
 while True:
   m=raw_input('').split()
@@ -62,16 +62,20 @@ while True:
   p=[]
   for n in m:
     try:
-      p.append(words.index(n.lower()+'\n'))
+      p.append(words.index(n.lower()))
       glyphs.append(n)
     except ValueError:
       if(is_int(n)):
         for char in n:
-          p.append(words.index(digits[int(char)]+'\n'))
+          p.append(words.index(digits[int(char)]))
           glyphs.append(digits[int(char)])
       else:
+        k=break_up_compound_word(n)
+        if(len(k)>0):
+          p+=k
+          glyphs+=k
         for char in n:
-          p.append(words.index(char.lower()+'\n'))
+          p.append(words.index(char.lower()))
           glyphs.append(char)
   print glyphs
   print p
